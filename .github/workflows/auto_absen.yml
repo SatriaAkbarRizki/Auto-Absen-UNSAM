@@ -1,5 +1,10 @@
 name: Auto Absen
 
+
+env:
+  NIM: ${{ secrets.NIM }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+
 on:
   schedule:
     - cron: "*/30 * * * *"   # setiap 30 menit
