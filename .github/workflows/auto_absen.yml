@@ -2,8 +2,8 @@ name: Auto Absen
 
 
 env:
-  NIM: ${{ secrets.NIM }}
-  PASSWORD: ${{ secrets.PASSWORD }}
+  NIM: '${{ secrets.NIM }}'
+  PASSWORD: '${{ secrets.PASSWORD }}'
 
 on:
   schedule:
