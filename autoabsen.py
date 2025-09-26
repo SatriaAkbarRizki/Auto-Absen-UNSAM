@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime
 from playwright.async_api import async_playwright
+from zoneinfo import ZoneInfo
 import os
 
 NIM = os.getenv("NIM")
@@ -53,8 +54,11 @@ async def run():
         #     print("   →", row)
 
 
-        now_date = datetime.now().strftime("%Y-%m-%d") 
-        now_time = datetime.now().strftime("%H:%M")
+        jakarta = ZoneInfo("Asia/Jakarta")
+        now = datetime.now(jakarta)
+        now_date = now.strftime("%Y-%m-%d")
+        now_time = now.strftime("%H:%M")
+
 
         print(f"⏰ Sekarang: {now_date}, {now_time}")
 
