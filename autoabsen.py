@@ -49,8 +49,8 @@ async def run():
         }""")
 
         print("✅ Jadwal Kuliah ditemukan:")
-        for row in data:
-            print("   →", row)
+        # for row in data:
+        #     print("   →", row)
 
 
         now_date = datetime.now().strftime("%Y-%m-%d") 
