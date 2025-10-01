@@ -1,0 +1,33 @@
+name: Auto Absen
+
+
+env:
+  NIM: '${{ secrets.NIM }}'
+  PASSWORD: '${{ secrets.PASSWORD }}'
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # setiap 30 menit
+  workflow_dispatch:         # bisa jalan manual dari GitHub
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+      
+      - name: Run script
+        run: |
+          python autoabsen.py
