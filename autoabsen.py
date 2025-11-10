@@ -3,6 +3,7 @@ from datetime import datetime
 from playwright.async_api import async_playwright
 from zoneinfo import ZoneInfo
 import os
+import send_email
 
 NIM = os.getenv("NIM")
 PASSWORD = os.getenv("PASSWORD")
@@ -13,9 +14,13 @@ JADWAL_URL = "https://mahasiswa.unsam.ac.id/simkuliah/jadwalkuliah"
 SIMKULIAH_URL = "https://mahasiswa.unsam.ac.id/simkuliah"
 
 async def run():
+
+
+
     print("🚀 Mulai script absensi...")
 
     async with async_playwright() as p:
+        
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
 
@@ -56,7 +61,7 @@ async def run():
             # for row in data:
             #     print("   →", row)
 
-
+            nameMK = ""
             jakarta = ZoneInfo("Asia/Jakarta")
             now = datetime.now(jakarta)
             now_date = now.strftime("%Y-%m-%d")
@@ -70,6 +75,7 @@ async def run():
                 if row["date"] == now_date:
                     if row["time"]:
                         start, end = row["time"].split(" - ")
+                        nameMK = row['title']
                         print(f"🔎 Cek jadwal {row['title']} [{start} - {end}]")
                         if start <= now_time <= end:
                             print("🟢 Jadwal cocok, absen sekarang!")
@@ -91,6 +97,7 @@ async def run():
                 try:
                     await page.wait_for_selector("p.badge-success", timeout=8000)
                     status = await page.inner_text("p.badge-success")
+                    send_email.succesAbsen(mataKuliah=nameMK, tanggal=now_date, waktu=now_time)
                     print(f"🎉 Absen berhasil, status: {status}")
                 except:
                     print("⚠️ Tidak menemukan status HADIR. Cek manual!")
