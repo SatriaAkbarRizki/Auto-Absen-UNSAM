@@ -14,18 +14,12 @@ JADWAL_URL = "https://mahasiswa.unsam.ac.id/simkuliah/jadwalkuliah"
 SIMKULIAH_URL = "https://mahasiswa.unsam.ac.id/simkuliah"
 
 async def run():
-
-
-
     print("🚀 Mulai script absensi...")
 
     async with async_playwright() as p:
         
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
-
-        print("🔑 Buka halaman login...")
-
         try:
             await page.goto(LOGIN_URL)
             await page.fill('input#username', NIM)
@@ -35,8 +29,6 @@ async def run():
 
             await page.wait_for_url("**/mahasiswa.unsam.ac.id/**", timeout=15000)
             print("✅ Login sukses!")
-
-            print("📅 Ambil jadwal kuliah...")
             await page.goto(JADWAL_URL)
             await page.wait_for_selector('#calendar table.fc-list-table tbody tr')
 
@@ -56,10 +48,6 @@ async def run():
               });
               return out;
             }""")
-
-            print("✅ Jadwal Kuliah ditemukan:")
-            # for row in data:
-            #     print("   →", row)
 
             nameMK = ""
             jakarta = ZoneInfo("Asia/Jakarta")
@@ -87,19 +75,20 @@ async def run():
                 await page.goto(SIMKULIAH_URL)
 
                 try:
-                    print("👉 Cari tombol absen...")
                     await page.wait_for_selector("button.btn-absensi-pertemuan", timeout=5000)
                     await page.click("button.btn-absensi-pertemuan")
                     print("✅ Klik ABSEN berhasil, tunggu status...")
+                    send_email.succesAbsen(mataKuliah=nameMK, tanggal=now_date, waktu=now_time)
                 except:
                     print("⚠️ Tombol absen tidak ditemukan!")
                 
                 try:
                     await page.wait_for_selector("p.badge-success", timeout=8000)
                     status = await page.inner_text("p.badge-success")
-                    send_email.succesAbsen(mataKuliah=nameMK, tanggal=now_date, waktu=now_time)
+
                     print(f"🎉 Absen berhasil, status: {status}")
                 except:
+                    send_email.errorAbsen(mataKuliah=nameMK, tanggal=now_date, waktu=now_time)
                     print("⚠️ Tidak menemukan status HADIR. Cek manual!")
 
             else:
@@ -108,6 +97,7 @@ async def run():
             await browser.close()
             print("🏁 Script selesai.")
         except Exception as e:
+            send_email.errorAbsen(mataKuliah=nameMK, tanggal=now_date, waktu=now_time)
             print("Error Running: ", e)
 
 asyncio.run(run())
