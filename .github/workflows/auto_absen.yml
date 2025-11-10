@@ -27,6 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install resend
           pip install playwright
           playwright install chromium
       
