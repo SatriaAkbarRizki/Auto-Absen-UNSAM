@@ -4,6 +4,8 @@ name: Auto Absen
 env:
   NIM: '${{ secrets.NIM }}'
   PASSWORD: '${{ secrets.PASSWORD }}'
+  EMAILAPI: '${{ secrets.EMAILAPI }}'
+  EMAILUSER: '${{ secrets.EMAILUSER }}'
 
 on:
   schedule:
