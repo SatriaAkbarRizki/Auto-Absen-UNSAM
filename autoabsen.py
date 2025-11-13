@@ -58,7 +58,7 @@ async def run():
 
             print(f"⏰ Sekarang: {now_date}, {now_time}")
 
-            if (hour >= 19 or hour > 6):
+            if (hour >= 19 or hour < 6):
                 print("Waktu sudah malam, keluar dari script.")
                 await browser.close()
                 exit(0)
