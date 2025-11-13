@@ -21,5 +21,7 @@ The script running use Github Action, not every time running this script so this
 Hayoo what you doing hah? be productive don't be lazy
 
 ## Roadmap
-- Maybe create program legal? like this but only notif when absent class coming soon
+- ~Maybe create program legal? like this but only notif when absent class coming soon~
+- ~Sending succes/error script running using email~
+- Maybe Nextime me will create browser have login and check status script or integrate on whatapps/telegram
 
