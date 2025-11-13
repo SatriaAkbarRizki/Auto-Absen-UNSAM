@@ -54,9 +54,16 @@ async def run():
             now = datetime.now(jakarta)
             now_date = now.strftime("%Y-%m-%d")
             now_time = now.strftime("%H:%M")
-
+            hour = now.hour
 
             print(f"⏰ Sekarang: {now_date}, {now_time}")
+
+            if (hour >= 19 or hour > 6):
+                print("Waktu sudah malam, keluar dari script.")
+                await browser.close()
+                exit(0)
+                
+            
 
             found = False
             for row in data:

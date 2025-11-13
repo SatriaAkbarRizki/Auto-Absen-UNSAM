@@ -9,8 +9,8 @@ env:
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # setiap 30 menit
-  workflow_dispatch:         # bisa jalan manual dari GitHub
+    - cron: "*/30 * * * *"   
+  workflow_dispatch:       
 
 jobs:
   run-script:
